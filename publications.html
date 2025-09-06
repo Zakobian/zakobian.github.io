@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A complete list of all publications, articles, and preprints by Zakhar Shumaylov, categorized by research area.">
+    <title>All Publications - Zakhar Shumaylov</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        .tag-all {
+            background-color: #f5f5f5;
+            color: #333;
+            border-color: #ccc;
+        }
+        /* --- Basic Setup --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6; /* Slightly reduced line-height */
+            color: #333;
+            background-color: #fdfdfd;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* --- Typography & Links --- */
+        h1 {
+            font-family: 'Lora', serif;
+            color: #111;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 2.5rem;
+            font-size: 2.5rem;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+        .back-link {
+            display: block;
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        /* --- Publications Section (Even More Compact Layout) --- */
+        .publication {
+            margin-bottom: 1rem;
+            padding-left: 12px;
+            border-left: 3px solid #eee;
+            font-size: 0.8rem;
+        }
+        .pub-title {
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-bottom: 0.1rem;
+        }
+        .pub-authors {
+            font-style: italic;
+            color: #333;
+            margin-bottom: 0.1rem;
+            font-size: 0.75rem;
+        }
+        .pub-venue-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.1rem;
+        }
+        .pub-venue {
+            color: #444;
+            font-size: 0.75rem;
+        }
+        .pub-link {
+            margin-left: 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .pub-tag {
+            display: inline-block;
+            padding: 1px 7px;
+            font-size: 0.6rem;
+            font-weight: bold;
+            border-radius: 10px;
+            text-transform: uppercase;
+            border: 1px solid;
+        }
+        .tag-dl { background-color: #d1ecf1; color: #0c5460; border-color: #bee5eb; }
+        .tag-ip { background-color: #d4edda; color: #155724; border-color: #c3e6cb; }
+        .tag-gdl { background-color: #f8d7da; color: #721c24; border-color: #f5c6cb; }
+        .tag-pidl { background-color: #fff3cd; color: #856404; border-color: #ffeeba; }
+        .tag-cosm { background-color: #e2d9f3; color: #4b2f7a; border-color: #d6cadd; }
+        .tag-opt { background-color: #fce4d6; color: #8c4c23; border-color: #f8d4be; }
+
+        /* Added for name highlight */
+        .author-highlight {
+            font-weight: 700;
+            font-style: normal;
+            background-color: #fffbe6;
+            padding: 2px 5px;
+            border-radius: 4px;
+            border: 1px solid #f0e68c;
+            color: #111;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="./index.html" class="back-link">&larr; Back to Home</a>
+        <h1>All Publications</h1>
+        <div id="tag-filter" style="margin-bottom:1.5rem;"></div>
+        <div id="publications-list">
+            <p>Loading publications...</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('publications.bib')
+                .then(response => response.text())
+                .then(bibtex => {
+                    const publications = parseBibtex(bibtex);
+                    setupTagFilter(publications);
+                    renderPublications(publications);
+                })
+                .catch(error => {
+                    console.error('Error fetching or parsing bib file:', error);
+                    document.getElementById('publications-list').innerHTML = '<p>Could not load publications.</p>';
+                });
+        });
+        let currentTag = null;
+
+        function setupTagFilter(publications) {
+            const tagSet = new Set();
+            publications.forEach(pub => {
+                if (pub.keywords) {
+                    pub.keywords.split(',').forEach(tag => {
+                        tagSet.add(tag.trim().toUpperCase());
+                    });
+                }
+            });
+            const allowedTags = ['DL', 'IP', 'GDL', 'PIDL', 'COSM', 'OPT'];
+            const tagFilterDiv = document.getElementById('tag-filter');
+            tagFilterDiv.innerHTML = '<strong>Filter by tag:</strong> ';
+            allowedTags.forEach(tag => {
+                if (tagSet.has(tag)) {
+                    tagFilterDiv.innerHTML += `<button class="pub-tag tag-${tag.toLowerCase()}" style="cursor:pointer;margin-right:6px;margin-bottom:4px;" onclick="filterByTag('${tag}')">${tag}</button>`;
+                }
+            });
+            tagFilterDiv.innerHTML += `<button class="pub-tag tag-all" style="cursor:pointer;margin-right:6px;margin-bottom:4px;" onclick="filterByTag(null)">Show All</button>`;
+        }
+
+        function filterByTag(tag) {
+            currentTag = tag;
+            fetch('publications.bib')
+                .then(response => response.text())
+                .then(bibtex => {
+                    const publications = parseBibtex(bibtex);
+                    renderPublications(publications);
+                });
+        }
+
+        function renderPublications(publications) {
+            const pubList = document.getElementById('publications-list');
+            pubList.innerHTML = '';
+            publications.sort((a, b) => b.year - a.year);
+            const allowedTags = new Set(['DL', 'IP', 'GDL', 'PIDL', 'COSM', 'OPT']);
+            let filtered = publications;
+            if (currentTag) {
+                filtered = publications.filter(pub => pub.keywords && pub.keywords.split(',').map(t => t.trim().toUpperCase()).includes(currentTag));
+            }
+            filtered.forEach(pub => {
+                const pubDiv = document.createElement('div');
+                pubDiv.className = 'publication';
+                // Title + tags line
+                let titleHTML = `<div class="pub-title">${pub.title}`;
+                if (pub.keywords) {
+                    const tags = pub.keywords.split(',').map(tag => tag.trim().toUpperCase());
+                    tags.forEach(tag => {
+                        if (allowedTags.has(tag)) {
+                            titleHTML += ` <span class="pub-tag tag-${tag.toLowerCase()}">${tag}</span>`;
+                        }
+                    });
+                }
+                titleHTML += '</div>';
+                // Authors line
+                const nameRegex = /\\textbf{Zakhar,?\s*Shumaylov}|Zakhar,?\s*Shumaylov/gi;
+                const highlightedName = '<span class="author-highlight">ZS</span>';
+                let authorsString = pub.author.replace(/ and /g, ', ').replace(nameRegex, highlightedName);
+                let authorsHTML = `<div class="pub-authors">${authorsString}</div>`;
+                // Venue + links line
+                let venue = pub.journal || pub.booktitle || '';
+                let venueLinksHTML = `<div class="pub-venue-links"><span class="pub-venue">${venue} (${pub.year})</span>`;
+                if (pub.url) {
+                    venueLinksHTML += ` <a href="${pub.url}" target="_blank" class="pub-link">[PDF]</a>`;
+                }
+                if (pub.doi) {
+                    venueLinksHTML += ` <a href="https://doi.org/${pub.doi}" target="_blank" class="pub-link">[DOI]</a>`;
+                }
+                venueLinksHTML += '</div>';
+                pubDiv.innerHTML = titleHTML + authorsHTML + venueLinksHTML;
+                pubList.appendChild(pubDiv);
+            });
+        }
+
+        function parseBibtex(bibtex) {
+            const entries = [];
+            const items = bibtex.split(/@\w+\{/);
+            for (let i = 1; i < items.length; i++) {
+                const item = items[i];
+                const entry = {};
+                const lines = item.split('\n');
+                for (let j = 1; j < lines.length; j++) {
+                    const line = lines[j].trim();
+                    if (line.includes('=')) {
+                        const parts = line.split('=');
+                        const key = parts[0].trim().toLowerCase();
+                        
+                        // --- Improved Value Parsing Logic ---
+                        let value = parts.slice(1).join('=').trim();
+                        // Remove a potential trailing comma, and trim again.
+                        if (value.endsWith(',')) {
+                            value = value.slice(0, -1).trim();
+                        }
+                        // Remove braces or quotes if they are the bookends
+                        if ((value.startsWith('{') && value.endsWith('}')) || (value.startsWith('"') && value.endsWith('"'))) {
+                            value = value.slice(1, -1);
+                        }
+                        entry[key] = value.trim();
+                    }
+                }
+                if (entry.title && entry.author && entry.year) {
+                    entries.push(entry);
+                }
+            }
+            return entries;
+        }
+    </script>
+
+</body>
+</html>
+
