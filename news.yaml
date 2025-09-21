@@ -1,0 +1,40 @@
+- date: "2025-08-25"
+  type: job
+  content: "Started at Google DeepMind."
+  location: "Mountain View, CA"
+  links:
+    # - text: "DeepMind"
+      # url: "https://deepmind.google.com/"
+
+- date: "2025-07-28"
+  type: talk
+  content: "Presented on ''The Future of Synthetic Data: Model Collapse and Equivariant Neural Operators'' at Gatsby Unit, UCL."
+  location: "London, UK"
+  # links:
+    # - text: "Slides"
+      # url: "https://slides.com/zakobian/icml-2025"
+    # - text: "Video"
+      # url: "https://youtube.com/watch?v=example"
+
+- date: "2025-07-12"
+  type: publication
+  content: "New preprint released from internship at Apple."
+  # location: "Cambridge, UK"
+  links:
+    - text: "Paper"
+      url: "https://arxiv.org/pdf/2507.09428"
+    # - text: "Code"
+      # url: "https://github.com/zakobian/geom-dl"
+  
+  
+- date: "2025-06-13"
+  type: publication
+  content: "CIME Summer School Lecture Notes on Data-Driven Methods for Inverse Problems released on arXiv."
+  # location: "Cambridge, UK"
+  links:
+    - text: "Paper"
+      url: "https://arxiv.org/pdf/2506.11732"
+    - text: "CIME 2023"
+      url: "https://sites.google.com/unifi.it/cime/c-i-m-e-courses/c-i-m-e-courses-2023/machine-learning-from-data-to-mathematical-understanding?authuser=0"
+
+

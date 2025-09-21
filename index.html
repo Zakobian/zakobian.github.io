@@ -10,8 +10,39 @@
     <!-- Link to Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
     <style>
+        /* News Tags Styles */
+        .news-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+            font-size: 0.7rem;
+        }
+        .icon-publication { 
+            background-color: #e3f2fd; 
+            color: #1565c0; 
+        }
+        .icon-talk { 
+            background-color: #f3e5f5; 
+            color: #7b1fa2; 
+        }
+        .icon-job { 
+            background-color: #e8f5e9; 
+            color: #2e7d32; 
+        }
+        
+        .news-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.3rem;
+        }
+
         .pub-tag {
             display: inline-block;
             padding: 1px 7px;
@@ -37,9 +68,87 @@
             padding: 20px;
         }
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 2rem auto;
-            padding: 0 1rem;
+            padding: 0 0.5rem;
+            display: grid;
+            grid-template-columns: 2.5fr 200px;
+            gap: 2rem;
+        }
+        
+        .main-content {
+            max-width: 800px;
+        }
+        
+        .news-section {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .news-section h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            padding-bottom: 8px;
+        }
+        
+        .news-item {
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .news-date {
+            font-size: 0.65rem;
+            color: #6c757d;
+            margin-bottom: 0.2rem;
+        }
+        
+        .news-content {
+            font-size: 0.7rem;
+            line-height: 1.4;
+            margin-bottom: 0.3rem;
+        }
+        
+        .news-location {
+            display: inline-block;
+            color: #666;
+            font-size: 0.65rem;
+            margin-right: 0.6rem;
+            line-height: 1.4;
+        }
+        
+        .news-location i {
+            font-size: 0.65rem;
+            margin-right: 3px;
+            color: #888;
+        }
+        
+        .news-links {
+            display: inline-block;
+            margin: 0;
+        }
+        
+        .news-link {
+            display: inline-block;
+            font-size: 0.65rem;
+            color: #666;
+            text-decoration: none;
+            margin-right: 0.6rem;
+            margin-top: 0.2rem;
+            transition: color 0.2s;
+        }
+        
+        .news-link:hover {
+            color: #007bff;
+        }
+        
+        .news-link i {
+            margin-right: 0.2rem;
+            font-size: 0.65rem;
         }
 
         /* --- Typography & Links --- */
@@ -173,7 +282,7 @@
 <body>
 
     <div class="container">
-
+        <div class="main-content">
         <!-- ============== BIO SECTION ============== -->
         <div class="bio-header">
             <img src="./profile.jpg" alt="Zakobian" class="profile-pic">
@@ -236,8 +345,89 @@
             <p>Loading publications...</p>
         </div>
         <a href="./publications.html" class="all-pubs-link">View all publications &rarr;</a>
+        </div>
 
+        <!-- ============== NEWS SECTION ============== -->
+        <div class="news-section">
+            <h2>Updates</h2>
+            <div id="news-list"></div>
+        </div>
     </div>
+
+    <!-- Load and render news updates -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('news.yaml')
+                .then(response => response.text())
+                .then(yamlText => {
+                    const news = jsyaml.load(yamlText);
+                    renderNews(news);
+                })
+                .catch(error => {
+                    console.error('Error fetching or parsing news:', error);
+                    const newsList = document.getElementById('news-list');
+                    newsList.innerHTML = '<p>Could not load news updates.</p>';
+                });
+        });
+
+        function renderNews(newsItems) {
+            const newsList = document.getElementById('news-list');
+            newsList.innerHTML = '';
+            
+            newsItems.forEach(item => {
+                const date = new Date(item.date);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                const newsItem = document.createElement('div');
+                newsItem.className = 'news-item';
+                let linksHTML = '';
+                if (item.links && item.links.length > 0) {
+                    linksHTML = '<div class="news-links">' +
+                        item.links.map(link => 
+                            `<a href="${link.url}" class="news-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>${link.text}
+                            </a>`
+                        ).join('') +
+                        '</div>';
+                }
+                
+                // Get the appropriate icon based on type
+                const getIcon = (type) => {
+                    switch(type) {
+                        case 'publication':
+                            return 'fa-scroll';
+                        case 'talk':
+                            return 'fa-microphone';
+                        case 'job':
+                            return 'fa-briefcase';
+                        default:
+                            return 'fa-circle-info';
+                    }
+                };
+
+                newsItem.innerHTML = `
+                    <div class="news-header">
+                        <span class="news-icon icon-${item.type}">
+                            <i class="fas ${getIcon(item.type)}"></i>
+                        </span>
+                        <div class="news-date">${formattedDate}</div>
+                    </div>
+                    <div class="news-content">
+                        ${item.content}
+                        <div style="margin-top: 0.2rem;">
+                            ${item.location ? `<span class="news-location"><i class="fas fa-location-dot" style="position:relative; top:1px"></i> ${item.location}</span>` : ''}
+                            ${linksHTML ? linksHTML : ''}
+                        </div>
+                    </div>
+                `;
+                newsList.appendChild(newsItem);
+            });
+        }
+    </script>
 
     <!-- This script fetches your .bib file and renders it on the page -->
     <script>
@@ -285,7 +475,7 @@
                 }
                 titleHTML += '</div>';
                 // Authors line
-                const nameRegex = /\\textbf{Zakhar,?\s*Shumaylov}|Zakhar,?\s*Shumaylov/gi;
+                const nameRegex = /({)?Zakhar,?\s*Shumaylov(})?/gi;
                 const highlightedName = '<span class="author-highlight">ZS</span>';
                 let authorsString = pub.author.replace(/ and /g, ', ').replace(nameRegex, highlightedName);
                 let authorsHTML = `<div class="pub-authors">${authorsString}</div>`;

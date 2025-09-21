@@ -195,7 +195,7 @@
                 }
                 titleHTML += '</div>';
                 // Authors line
-                const nameRegex = /\\textbf{Zakhar,?\s*Shumaylov}|Zakhar,?\s*Shumaylov/gi;
+                const nameRegex = /({)?Zakhar,?\s*Shumaylov(})?/gi;
                 const highlightedName = '<span class="author-highlight">ZS</span>';
                 let authorsString = pub.author.replace(/ and /g, ', ').replace(nameRegex, highlightedName);
                 let authorsHTML = `<div class="pub-authors">${authorsString}</div>`;
