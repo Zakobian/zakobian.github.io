@@ -1,3 +1,13 @@
+- date: "2025-10-02"
+  type: publication
+  content: "Our recent large collaboration on Learning Regularization came out!"
+  # location: "Mountain View, CA"
+  links:
+    - text: "Paper"
+      url: "https://arxiv.org/pdf/2510.01755"
+    - text: "Code"
+      url: https://github.com/johertrich/LearnedRegularizers
+      
 - date: "2025-08-25"
   type: job
   content: "Started at Google DeepMind."
