@@ -1,3 +1,18 @@
+- date: "2025-11-12"
+  type: publication
+  content: "New preprint on System Discoverability is finally out!"
+  # location: "Mountain View, CA"
+  links:
+    - text: "Paper"
+      url: "https://arxiv.org/abs/2511.08860"
+    # - text: "Code"
+      # url: https://github.com/johertrich/LearnedRegularizers
+
+- date: "2025-11-09"
+  type: talk
+  content: "Presented on ''Model Collapse and Systems Discoverability'' at the Creek Brunch series."
+  location: "Stanford, US"
+      
 - date: "2025-10-02"
   type: publication
   content: "Our recent large collaboration on Learning Regularization came out!"
