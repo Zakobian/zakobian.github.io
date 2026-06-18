@@ -15,14 +15,18 @@
     <style>
         /* News Tags Styles */
         .news-icon {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
             width: 20px;
             height: 20px;
+            flex-shrink: 0;
             border-radius: 50%;
             margin-right: 8px;
             font-size: 0.7rem;
+            line-height: 1;
+            position: relative;
+            top: -2px;
         }
         .icon-publication { 
             background-color: #e3f2fd; 
@@ -32,15 +36,20 @@
             background-color: #f3e5f5; 
             color: #7b1fa2; 
         }
-        .icon-job { 
-            background-color: #e8f5e9; 
-            color: #2e7d32; 
+        .icon-job {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .icon-award {
+            background-color: #fff8e1;
+            color: #f9a825;
         }
         
         .news-header {
             display: flex;
             align-items: center;
             margin-bottom: 0.3rem;
+            line-height: 1;
         }
 
         .pub-tag {
@@ -68,11 +77,11 @@
             padding: 20px;
         }
         .container {
-            max-width: 1000px;
+            max-width: 1250px;
             margin: 2rem auto;
-            padding: 0 0.5rem;
+            padding: 0 2rem;
             display: grid;
-            grid-template-columns: 2.5fr 200px;
+            grid-template-columns: 2.5fr 400px;
             gap: 2rem;
         }
         
@@ -105,6 +114,7 @@
             font-size: 0.65rem;
             color: #6c757d;
             margin-bottom: 0.2rem;
+            line-height: 1;
         }
         
         .news-content {
@@ -290,7 +300,7 @@
                 <h1>Zakhar Shumaylov</h1>
                 <p>
                     I am a PhD student under supervision of <a href ="https://www.damtp.cam.ac.uk/person/cbs31" target="_blank">Professor Carola Schönlieb</a> at the <a href="https://www.damtp.cam.ac.uk/research/cia/cambridge-image-analysis" target="_blank">Cambridge Image Analysis Group</a> within DAMTP. I am also a member of the <a href="https://www.ccimi.maths.cam.ac.uk/" target="_blank">CCIMI</a> and the <a href="https://maths4dl.ac.uk/team-member/zak-shumaylov" target="_blank">Maths4DL programme</a>.
-                    <br> During my PhD I was at Google DeepMind in Mountain View, working on inverse lithography and at Apple in Cambridge, working on model compression.
+                    <br> During my PhD I spent some time at Google DeepMind in Mountain View, working on inverse lithography and at Apple in Cambridge, working on model compression.
                     <br> I am generally interested in applied mathematics, particularly problems arising at the intersection of optimization, deep learning, geometry, and inverse problems.
                     <br> So far in my PhD I have focused on the areas of geometric deep learning and physics informed machine learning.
                 </p>
@@ -404,6 +414,8 @@
                             return 'fa-microphone';
                         case 'job':
                             return 'fa-briefcase';
+                        case 'award':
+                            return 'fa-trophy';
                         default:
                             return 'fa-circle-info';
                     }

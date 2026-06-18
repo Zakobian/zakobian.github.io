@@ -1,3 +1,41 @@
+- date: "2026-06-18"
+  type: publication
+  content: "New report out as part of the Academy of the Mathematical Sciences: On Mathematics in the Age of Artificial Intelligence."
+  links:
+    - text: "Report"
+      url: "https://www.repository.cam.ac.uk/items/0b92dd1e-fb44-4131-aa3f-cb8d733adbd0"
+
+- date: "2026-06-18"
+  type: award
+  content: "Became a member of the Inverse Problems Young Academy!"
+  links:
+    - text: "IPYA"
+      url: "https://ipia.site/wp/about-ipya/"
+
+- date: "2026-06-11"
+  type: award
+  content: "Received the G-Research Cambridge PhD Prize!"
+
+- date: "2026-06-05"
+  type: talk
+  content: "Gave talks at SIAM Conference on Optimization 2026 on learned regularization, structure preservation in inverse problems, and systems discoverability."
+  location: "Edinburgh, UK"
+
+- date: "2026-06-01"
+  type: award
+  content: "Received the EAIP PhD Thesis Award!"
+  links:
+    - text: "Award"
+      url: "https://www.eurasianip.org/eaip-awards/eaip-ph-d-thesis-award.html"
+
+- date: "2026-05-27"
+  type: talk
+  content: "Gave an invited talk on ''When is a System Discoverable from Data?'' at the ProbAI Hub Research Retreat."
+  location: "Edinburgh, UK"
+  links:
+    - text: "Retreat"
+      url: "https://www.probai.uk/news/newsStory/?slug=probai-hub-research-retreat-2026-in-edinburgh"
+
 - date: "2026-05-18"
   type: talk
   content: "Gave an invited talk on ''When is a System Discoverable from Data?'' at the REMODEL conference."
