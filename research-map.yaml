@@ -1,0 +1,362 @@
+# Research map shown on the homepage (rendered by assets/research-map.js).
+#
+# Canvas units: x grows right, y grows down. Nodes are drawn in the order listed,
+# so later nodes sit on top of earlier ones.
+#
+# Bubble size is automatic: it grows with the number of papers in the bubble and
+# everything below it (its arrows' targets and `within` children), capped for the
+# biggest topics. The font size follows the bubble size. Clicking a bubble lists
+# all of those papers.
+#
+# Node fields:
+#   id        unique name, used by edges
+#   label     short text in the bubble (full paper titles show when it is clicked); "\n" forces a line break
+#   x, y      centre position
+#   w, h      make it a rounded box of this size instead of a circle
+#   r         optional: override the automatic radius
+#   color     fill colour; text colour is picked automatically
+#   stroke    optional outline colour (default: a darker shade of color)
+#   status    wip -> dashed pink "in progress" style
+#   within    id of a node this one sits inside / belongs to (counts as its child, no arrow drawn)
+#   papers    list of keys from publications.bib
+#   links     extra links: [{text: Code, url: https://...}]
+#   blurb     optional sentence shown above the papers
+#   image     optional picture shown in the side panel when the bubble is clicked,
+#             e.g. assets/research-map/lie.png (any web image: png, jpg, webp, svg)
+#   thumb     optional: also show that image on the map as a tilted card behind the bubble:
+#               thumb: {dx: 130, dy: -40, w: 100, h: 100, rotate: 4}
+#             dx/dy = card centre relative to the bubble centre, w/h = card size, rotate = tilt in degrees.
+#             The image is cropped to fill w x h, so match w/h to the image's aspect ratio.
+#             Use images at least ~3x the card size (e.g. 300px wide for w: 100) so they stay sharp.
+#
+# Edges go from a topic to its sub-topic: [from, to] or [from, to, bend], where bend curves the arrow.
+# For full control use {from, to, via: [[x1, y1], [x2, y2]], top: true}:
+#   via  one or two control points for a curve; top  draw the arrow over the bubbles.
+
+canvas: [1200, 1180]
+
+# Font for the whole map (any Google Fonts family name).
+font: Nunito
+
+nodes:
+  - id: inverse
+    label: Inverse Problems
+    x: 300
+    y: 600
+    color: "#c4a55a"
+
+  - id: optimisation
+    label: Optimisation
+    x: 648
+    y: 107
+    color: "#8c5a3c"
+
+  - id: weakly
+    label: Weakly Convex Regularisation
+    x: 480
+    y: 120
+    color: "#c98657"
+    papers: [shumaylov2024weakly]
+
+  - id: data-driven
+    label: Data-driven inverse problems
+    x: 110
+    y: 470
+    color: "#7f7cd0"
+    papers: [schönlieb2025datadrivenapproachesinverseproblems]
+
+  - id: learned-reg
+    label: Learned Regularisation
+    x: 303
+    y: 349
+    color: "#7b78cc"
+
+  - id: lcr
+    label: Learned Convex Regularisers
+    x: 140
+    y: 300
+    color: "#7f7cd0"
+    papers: [mukherjee2020learned]
+
+  - id: lrf
+    label: Comparing learned regularisers
+    x: 180
+    y: 140
+    color: "#7f7cd0"
+    papers: [hertrich2026learningregularizationfunctionalsinverse]
+
+  - id: ctbench
+    label: CT reconstruction benchmark
+    x: 320
+    y: 110
+    color: "#7f7cd0"
+    papers: [maxb]
+
+  - id: lcnc
+    label: Learned Convex Non-Convex Regularisers
+    x: 487
+    y: 300
+    color: "#7f7cd0"
+    papers: [shumaylov2023provably]
+
+  - id: video
+    label: "Video motion segmen-\ntation"
+    x: 492
+    y: 579
+    color: "#ecdfa5"
+
+  - id: cryo
+    label: Cryo EM protein imaging
+    x: 150
+    y: 750
+    color: "#ecdfa5"
+
+  - id: cell
+    label: Cell modelling
+    x: 300
+    y: 770
+    color: "#ecdfa5"
+
+  - id: discovery
+    label: "Discoverability & chaos"
+    x: 481
+    y: 697
+    color: "#e3f5e3"
+    stroke: "#6abf69"
+    papers: [shumaylov2025discoverabledatadiscoveryrequires]
+
+  - id: act
+    label: Adaptive coordinate transforms
+    x: 552
+    y: 800
+    color: "#b5eaf4"
+    papers: [liu2026adaptivecoordinatetransformsneural]
+
+  - id: litho
+    label: "On Inverse Design vs Inverse Problems: Lithography"
+    x: 452
+    y: 467
+    w: 180
+    h: 66
+    color: "#f1dadd"
+    status: wip
+
+  - id: ml
+    label: ML
+    x: 708
+    y: 453
+    color: "#6a9fc8"
+
+  - id: pil
+    label: Physics Informed Learning
+    x: 662
+    y: 580
+    color: "#4fb0d1"
+    within: ml
+
+  - id: gdl
+    label: Geometric Deep Learning
+    x: 819
+    y: 531
+    color: "#4ab3d3"
+    within: ml
+
+  - id: godl
+    label: Geometry of Deep Learning
+    x: 826
+    y: 406
+    color: "#2f6e8c"
+    within: ml
+
+  - id: sgd
+    label: SGD manipulation
+    x: 731
+    y: 265
+    color: "#cfe2f0"
+    papers: [shumailov2021manipulating]
+
+  - id: collapse
+    label: Model Collapse
+    x: 860
+    y: 240
+    color: "#cfe2f0"
+    papers: [shumailov2023curse]
+
+  - id: primer
+    label: Maths in the age of AI
+    x: 1130
+    y: 85
+    color: "#cfe2f0"
+    papers: [leslie2026mathematicsageai]
+
+  - id: infogeo
+    label: Info-geometric model compression
+    x: 1049
+    y: 333
+    color: "#d8f6fb"
+    stroke: "#3fb8d6"
+    papers: [shumaylov2025informationgeometryiterativeoptimization]
+
+  - id: muon-geo
+    label: Muon is not about Geometry
+    x: 1067
+    y: 458
+    color: "#d8f6fb"
+    stroke: "#3fb8d6"
+    papers: [shumaylov2026muonspecialrandominverted]
+
+  - id: nees
+    label: Non-euclidean edge of stability
+    x: 1121
+    y: 572
+    w: 122
+    h: 72
+    color: "#f1dadd"
+    status: wip
+
+  - id: scaling
+    label: Scaling Laws of Structured Networks
+    x: 1109
+    y: 700
+    w: 122
+    h: 78
+    color: "#f1dadd"
+    status: wip
+
+  - id: score
+    label: Score-based pullback geometry
+    x: 978
+    y: 782
+    color: "#b5eaf4"
+    papers: [diepeveen2025scorebasedpullbackriemanniangeometry]
+
+  - id: language
+    label: The Language Manifold Hypothesis
+    x: 1119
+    y: 829
+    w: 122
+    h: 78
+    color: "#f1dadd"
+    status: wip
+
+  - id: canon
+    label: Canonicalization
+    x: 814
+    y: 863
+    color: "#8fd8ea"
+
+  - id: canon-theory
+    label: Theory of canonicalization
+    x: 920
+    y: 1110
+    w: 130
+    h: 70
+    color: "#f1dadd"
+    status: wip
+
+  - id: lie
+    label: Lie algebra canonicalization
+    x: 1001
+    y: 950
+    color: "#b5eaf4"
+    papers: [shumaylov2025lie]
+
+  - id: genlie
+    label: Generalized Lie symmetries
+    x: 1052
+    y: 1046
+    color: "#b5eaf4"
+    within: lie
+    papers: [wang2025generalized]
+
+  - id: diffeo
+    label: Diffeomorphism equivariance
+    x: 790
+    y: 1030
+    color: "#e3f5e3"
+    stroke: "#4caf50"
+    papers: [oettinger2026diffeomorphismequivariantneuralnetworks]
+
+  - id: hamiltonian
+    label: Symplectic neural integrators
+    x: 657
+    y: 884
+    color: "#b5eaf4"
+    papers: [canizares2025hamiltonian, canizares2024symplectic]
+
+  - id: theory
+    label: Theoretical Physics
+    x: 400
+    y: 920
+    color: "#8fb25f"
+
+  - id: boson
+    label: Stationary Boson Stars
+    x: 250
+    y: 960
+    color: "#c9e7c4"
+
+  - id: wd
+    label: WD gas imaging
+    x: 320
+    y: 1070
+    color: "#c9e7c4"
+
+  - id: analytical
+    label: Analytical Approximation Cosmology
+    x: 450
+    y: 1095
+    color: "#c9e7c4"
+    papers: [shumaylov2022primordial]  # GUESS
+
+  - id: quantum
+    label: Quantum Initial Conditions Cosmology
+    x: 570
+    y: 1050
+    color: "#c9e7c4"
+    papers: [letey2024quantum]
+
+edges:
+  - [ml, sgd]
+  - [ml, collapse]
+  - {from: ml, to: primer, via: [[760, 320], [1000, 330]]}
+  - [ml, litho]
+  - [ml, learned-reg]
+  - [ml, video]
+  - [pil, discovery]
+  - [pil, act]
+  - [pil, hamiltonian]
+  - [pil, lie]
+  - [godl, infogeo]
+  - [godl, muon-geo]
+  - [godl, scaling]
+  - [gdl, score]
+  - [gdl, canon]
+  - [gdl, hamiltonian]
+  - [canon, diffeo]
+  - [canon, lie]
+  - [canon, canon-theory]
+  - [gdl, language]
+  - [inverse, data-driven]
+  - [inverse, learned-reg]
+  - [inverse, video]
+  - [inverse, cryo]
+  - [inverse, cell]
+  - [inverse, discovery]
+  - [inverse, litho]
+  - {from: inverse, to: diffeo, via: [[431, 835], [560, 1010]]}
+  - [optimisation, weakly]
+  - [optimisation, learned-reg]
+  - [optimisation, sgd]
+  - {from: optimisation, to: muon-geo, via: [[1040, 100], [950, 430]]}
+  - {from: optimisation, to: nees, via: [[1040, 100], [960, 600]]}
+  - [learned-reg, lrf]
+  - [learned-reg, ctbench]
+  - [learned-reg, lcr]
+  - [learned-reg, lcnc]
+  - [learned-reg, weakly]
+  - [theory, hamiltonian]
+  - [theory, boson]
+  - [theory, wd]
+  - [theory, analytical]
+  - [theory, quantum]

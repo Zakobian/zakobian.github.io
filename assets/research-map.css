@@ -1,0 +1,265 @@
+/* --- Research Map (assets/research-map.js) --- */
+.rmap {
+    --rmap-font: 'Inter', sans-serif; /* overridden by `font:` in research-map.yaml */
+    font-family: var(--rmap-font);
+}
+.rmap-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.72rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+.rmap-hint {
+    flex: 1;
+}
+.rmap-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+.rmap-legend-wip {
+    width: 18px;
+    height: 11px;
+    border: 1.5px dashed #b5485d;
+    background: #f1dadd;
+    border-radius: 3px;
+}
+.rmap-expand {
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+    color: #555;
+    font-size: 0.8rem;
+}
+.rmap-expand:hover {
+    color: #007bff;
+    border-color: #007bff;
+}
+.rmap-canvas {
+    overflow-x: auto;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background: #fff;
+}
+.rmap-canvas svg {
+    display: block;
+    width: 100%;
+    min-width: 640px;
+    height: auto;
+}
+.rmap-panel {
+    margin-top: 1rem;
+}
+.rmap-panel-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--rmap-font);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #111;
+    margin-bottom: 0.6rem;
+}
+.rmap-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.rmap-wip-tag {
+    font-family: var(--rmap-font);
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #8a2a3f;
+    background: #f1dadd;
+    border: 1px dashed #b5485d;
+    border-radius: 10px;
+    padding: 1px 7px;
+}
+.rmap-blurb,
+.rmap-empty {
+    font-size: 0.8rem;
+    color: #555;
+}
+.rmap-empty {
+    font-style: italic;
+}
+.rmap-panel-img {
+    max-width: 100%;
+    border-radius: 6px;
+    margin-bottom: 0.8rem;
+}
+.rmap-subtopic {
+    font-size: 0.68rem;
+    color: #888;
+}
+.rmap-links {
+    margin-bottom: 0.8rem;
+}
+.rmap-links .pub-link {
+    margin-left: 0;
+    margin-right: 10px;
+}
+.rmap-related {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: #666;
+    margin-top: 0.8rem;
+}
+.rmap-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font: inherit;
+    color: #333;
+    background: #f8f9fa;
+    border: 1px solid #e3e6e9;
+    border-radius: 12px;
+    padding: 2px 9px;
+    cursor: pointer;
+}
+.rmap-chip:hover {
+    border-color: #007bff;
+    color: #007bff;
+}
+.rmap-chip .rmap-swatch {
+    width: 9px;
+    height: 9px;
+}
+
+/* SVG elements */
+.rmap-node {
+    cursor: pointer;
+    outline: none;
+    transition: opacity 0.2s;
+}
+.rmap-shape {
+    stroke-width: 2;
+    transition: stroke-width 0.2s;
+}
+.rmap-node.is-wip .rmap-shape {
+    stroke: #b5485d;
+    stroke-dasharray: 6 4;
+}
+.rmap-node.is-wip .rmap-label {
+    fill: #8a2a3f;
+}
+.rmap-node:hover .rmap-shape,
+.rmap-node:focus-visible .rmap-shape,
+.rmap-node.is-selected .rmap-shape {
+    stroke-width: 4.5;
+}
+.rmap-label {
+    font-family: var(--rmap-font);
+    pointer-events: none;
+    user-select: none;
+}
+.rmap-badge {
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+svg.has-focus .rmap-badge:not(.is-related) {
+    opacity: 0.25;
+}
+.rmap-badge circle {
+    fill: #fff;
+    stroke: #666;
+    stroke-width: 1;
+}
+.rmap-badge text {
+    fill: #333;
+    font-family: var(--rmap-font);
+    font-weight: 700;
+    pointer-events: none;
+}
+.rmap-edge {
+    fill: none;
+    stroke: #9aa3ab;
+    stroke-width: 1.6;
+    pointer-events: none;
+    transition: opacity 0.2s, stroke 0.2s;
+}
+.rmap-arrowhead {
+    fill: #9aa3ab;
+}
+.rmap-arrowhead-on {
+    fill: #222;
+}
+.rmap-thumb {
+    transition: opacity 0.2s;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
+}
+.rmap-thumb-card {
+    fill: #fff;
+    stroke: #e3e3e3;
+}
+svg.has-focus .rmap-node:not(.is-related),
+svg.has-focus .rmap-thumb:not(.is-related) {
+    opacity: 0.25;
+}
+svg.has-focus .rmap-edge {
+    opacity: 0.12;
+}
+svg.has-focus .rmap-edge.is-related {
+    opacity: 1;
+    stroke: #222;
+    stroke-width: 2.2;
+}
+
+/* Full-screen mode */
+body.rmap-lock {
+    overflow: hidden;
+}
+.rmap.is-expanded {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: #fdfdfd;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+}
+.rmap.is-expanded .rmap-body {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 20px;
+}
+.rmap.is-expanded .rmap-canvas {
+    min-height: 0;
+    overflow: auto;
+}
+.rmap.is-expanded .rmap-canvas svg {
+    height: 100%;
+}
+.rmap.is-expanded .rmap-panel {
+    margin-top: 0;
+    overflow-y: auto;
+}
+@media (max-width: 800px) {
+    .rmap-hint {
+        display: none;
+    }
+    .rmap-bar {
+        justify-content: flex-end;
+    }
+    .rmap.is-expanded .rmap-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) auto;
+    }
+    .rmap.is-expanded .rmap-panel {
+        max-height: 40vh;
+    }
+}
