@@ -1,0 +1,54 @@
+/* --- Top navigation bar, shared by all pages --- */
+.site-nav {
+    border-bottom: 1px solid #eee;
+    margin: -20px -20px 0;
+    padding: 0 20px;
+    background-color: #fdfdfd;
+}
+.site-nav-inner {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 14px 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+}
+.site-nav-name {
+    font-family: 'Lora', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #111;
+}
+.site-nav-name:hover {
+    color: #111;
+}
+.site-nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    font-size: 0.85rem;
+}
+.site-nav-links a {
+    color: #555;
+    padding: 2px 0;
+    border-bottom: 2px solid transparent;
+}
+.site-nav-links a:hover {
+    color: #007bff;
+}
+.site-nav-links a[aria-current="page"] {
+    color: #111;
+    font-weight: 700;
+    border-bottom-color: #111;
+}
+@media (max-width: 1000px) {
+    .site-nav {
+        margin: -12px -12px 0;
+        padding: 0 12px;
+    }
+    .site-nav-inner {
+        padding: 12px 0.5rem;
+    }
+}
