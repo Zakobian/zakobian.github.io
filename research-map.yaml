@@ -206,13 +206,12 @@ nodes:
     papers: [shumaylov2026muonspecialrandominverted]
 
   - id: nees
-    label: Non-euclidean edge of stability
+    label: Non-Euclidean edges of stability
     x: 1121
     y: 572
-    w: 122
-    h: 72
-    color: "#f1dadd"
-    status: wip
+    color: "#d8f6fb"
+    stroke: "#3fb8d6"
+    papers: [zaika2026noneuclideanedgesofstability]
 
   - id: scaling
     label: Scaling Laws of Structured Networks

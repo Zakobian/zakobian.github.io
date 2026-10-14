@@ -1,3 +1,10 @@
+- date: "2026-10-10"
+  type: publication
+  content: "New preprint out with Peter on Non-Euclidean Edges of Stability!"
+  links:
+    - text: "Paper"
+      url: "https://arxiv.org/abs/2610.15223"
+
 - date: "2026-10-05"
   type: job
   content: "Started my Junior Research Fellowship at Jesus College, Cambridge, and the EPSRC ProbAI Doctoral Prize Fellowship!"
